@@ -3,20 +3,31 @@ from tkinter import *
 from tkinter import filedialog
 
 
-
-
 def open_file():
     global in_path 
     in_path = filedialog.askopenfile(filetypes=[("Sequence files", ".seq")])
 
 
+# def convert_file():
+#     if in_path:
+#         out_path = filedialog.askdirectory()
+#         file_name = os.path.basename(in_path.name)[:-4]
+#         print(file_name)
+#         command = f'ffmpeg -i {in_path.name} {os.path.join(out_path, file_name)}.mp4'
+#         os.system(command)
+
 def convert_file():
     if in_path:
-        out_path = filedialog.askdirectory()
-        file_name = os.path.basename(in_path.name)[:-4]
-        print(file_name)
-        command = f'ffmpeg -i {in_path.name} {os.path.join(out_path, file_name)}.mp4'
-        os.system(command)
+        if os.path.exists(in_path.name):
+            out_path = filedialog.askdirectory()
+            file_name = os.path.basename(in_path.name)[:-4]
+            print(file_name)
+            command = f'ffmpeg -i "{in_path.name}" "{os.path.join(out_path, file_name)}.mp4"'
+            os.system(command)
+        else:
+            print("Input file does not exist.")
+    else:
+        print("No file selected.")
 
 bg = '#F7976D'
 global in_path
